@@ -1,0 +1,13 @@
+{% extends "main/main_base.html" %} {# main/main_base.html extends layout.html #}
+
+{% block content %}
+{% from "common/form_macros.html" import render_field, render_submit_field %}
+<form action="/verify_2fa" method="POST" class="form" role="form">
+  <div class="row">
+    <div class="col-sm-6 col-md-5 col-lg-4">
+      <b>Authentication Code:</b>&nbsp;&nbsp;<input type="text" id="two_factor_code" name="two_factor_code"/>
+      <input type="submit" value="Verify"/>
+    </div>
+  </div>
+</form>
+{% endblock %}
