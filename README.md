@@ -1,6 +1,9 @@
-# 2FA Sample Customer App
+# Reference Example Application for Bandwidth Multi-Factor Authentication customers
 
-A sample or reference application for using the Bandwidth 2FA (Two-Factor Authentication) Service 
+A "reference" example application for using the Bandwidth MFA Two-Factor Authentication Service
+Developers should follow this guide for configuring this example application to run,
+then use this reference application as a guide for either building a new application
+or modifying an existing application to leverage Bandwidth MFA for enhanced user security.
 
 ## Code characteristics
 
@@ -21,13 +24,13 @@ A sample or reference application for using the Bandwidth 2FA (Two-Factor Authen
 
 We assume that you have `git` and `venv` virtual environment manager installed.
 
-    # Clone the code repository into ~/my_code/app-2fa-customer-sample
+    # Clone the code repository into ~/my_code/mfa-python-example-app
     mkdir -p ~/my_code
     cd ~/my_code
-    git clone https://bandwidth.com/app-2fa-customer-sample.git app-2fa-customer-sample
+    git clone https://bandwidth.com/mfa-python-example-app.git mfa-python-example-app
 
-    # Create the 'app-2fa-customer-sample' virtual environment
-    cd app-2fa-customer-sample
+    # Create the 'mfa-python-example-app' virtual environment
+    cd mfa-python-example-app
     python3 -m venv .venv
     source .venv/bin/activate
 
