@@ -26,14 +26,13 @@ headers = {'Authorization': 'Basic ' + base64_encoded_username_and_password}
 '''
 URL parameters
 '''
-account_id = '5006144'
+account_id = '<Your Bandwidth Account Number>'
 
 '''
 POST body parameters
 '''
-messaging_application_id = '75b74d68-f200-4bf9-bdc5-e8a11bbef39e'
-from_phone_num = '+19198675703'
-to_phone_num = '+19198895989'
+messaging_application_id = '<Your Bandwidth Messaging Application ID>'
+from_phone_num = '<Your Source Telephone Number>'
 
 
 # The Home page is accessible to anyone
@@ -44,9 +43,10 @@ def home_page():
 
 @main_blueprint.route('/2fa', methods=['GET', 'POST'])
 def two_factor_auth_page():
+    to_phone_num = 'TODO: look up the User telephone number, or hard-code a number here for testing' 
     data = json.dumps({
         "applicationId": messaging_application_id,
-        "scope": "testing",
+        "scope": "example",
         "to": to_phone_num,
         "from": from_phone_num
     })
@@ -57,9 +57,10 @@ def two_factor_auth_page():
 
 @main_blueprint.route('/verify_2fa', methods=['GET', 'POST'])
 def verify_two_factor_auth_page():
+    to_phone_num = 'TODO: look up the User telephone number, or hard-code a number here for testing'
     data = json.dumps({
         "applicationId": messaging_application_id,
-        "scope": "testing",
+        "scope": "example",
         "to": to_phone_num,
         "from": from_phone_num,
         "code": request.form["two_factor_code"]
