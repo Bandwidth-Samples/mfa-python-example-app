@@ -32,7 +32,7 @@ account_id = '<Your Bandwidth Account Number>'
 POST body parameters
 '''
 messaging_application_id = '<Your Bandwidth Messaging Application ID>'
-from_phone_num = '<Your Source Telephone Number>'
+from_phone_num = '<Your Source Telephone Number in E164 format>'
 
 
 # The Home page is accessible to anyone
@@ -43,7 +43,7 @@ def home_page():
 
 @main_blueprint.route('/2fa', methods=['GET', 'POST'])
 def two_factor_auth_page():
-    to_phone_num = 'TODO: look up the User telephone number, or hard-code a number here for testing' 
+    to_phone_num = '<look up the User telephone number, or hard-code one for testing, number must be in in E164 format>'
     data = json.dumps({
         "applicationId": messaging_application_id,
         "scope": "example",
@@ -57,7 +57,7 @@ def two_factor_auth_page():
 
 @main_blueprint.route('/verify_2fa', methods=['GET', 'POST'])
 def verify_two_factor_auth_page():
-    to_phone_num = 'TODO: look up the User telephone number, or hard-code a number here for testing'
+    to_phone_num = '<look up the User telephone number, or hard-code one for testing, number must be in in E164 format>'
     data = json.dumps({
         "applicationId": messaging_application_id,
         "scope": "example",
