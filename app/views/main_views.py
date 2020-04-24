@@ -21,10 +21,18 @@ main_blueprint = Blueprint('main', __name__, template_folder='templates')
 Customer-specific configuration is required for these fields:
 '''
 base64_encoded_username_and_password = '<add your base64-encoded username:password here>'
-account_id = '5006144'
-messaging_application_id = '75b74d68-f200-4bf9-bdc5-e8a11bbef39e'
-from_phone_num = '+19198675703'
-to_phone_num = '+19198895989'
+headers = {'Authorization': 'Basic ' + base64_encoded_username_and_password}
+
+'''
+URL parameters
+'''
+account_id = '<Your Bandwidth Account Number>'
+
+'''
+POST body parameters
+'''
+messaging_application_id = '<Your Bandwidth Messaging Application ID>'
+from_phone_num = '<Your Source Telephone Number in E164 format>'
 
 
 # The Home page is accessible to anyone
@@ -35,35 +43,29 @@ def home_page():
 
 @main_blueprint.route('/2fa', methods=['GET', 'POST'])
 def two_factor_auth_page():
-    headers = {'Authorization': 'Basic ' + base64_encoded_username_and_password}
+    to_phone_num = '<look up the User telephone number, or hard-code one for testing, number must be in in E164 format>'
     data = json.dumps({
-        "Text2FA": [
-            {"AccountId": [account_id]},
-        	{"ApplicationId": [messaging_application_id]},
-	        {"Action": ["testing"]},
-        	{"To": [{"PhoneNum": [to_phone_num]}]},
-        	{"From": [{"PhoneNum": [from_phone_num]}]}
-        ]
+        "applicationId": messaging_application_id,
+        "scope": "example",
+        "to": to_phone_num,
+        "from": from_phone_num
     })
-    requests.post('https://mfa.bandwidth.com/app/two-factor', headers=headers, data=data)
+    requests.post(f'https://mfa.bandwidth.com/api/v1/accounts/{account_id}/code/messaging', headers=headers, data=data)
     flash('You must verify the authentication code you received. Enter it here:', 'success')
     return render_template('main/2fa_page.html')
 
 
 @main_blueprint.route('/verify_2fa', methods=['GET', 'POST'])
 def verify_two_factor_auth_page():
-    headers = {'Authorization': 'Basic ' + base64_encoded_username_and_password}
+    to_phone_num = '<look up the User telephone number, or hard-code one for testing, number must be in in E164 format>'
     data = json.dumps({
-        "CheckCode": [
-            {"AccountId": [account_id]},
-            {"ApplicationId": [messaging_application_id]},
-            {"Action": ["testing"]},
-            {"To": [{"PhoneNum": [to_phone_num]}]},
-            {"From": [{"PhoneNum": [from_phone_num]}]},
-            request.form["two_factor_code"]
-        ]
+        "applicationId": messaging_application_id,
+        "scope": "example",
+        "to": to_phone_num,
+        "from": from_phone_num,
+        "code": request.form["two_factor_code"]
     })
-    resp = requests.post('https://mfa.bandwidth.com/app/two-factor', headers=headers, data=data)
+    resp = requests.post(f'https://mfa.bandwidth.com/api/v1/accounts/{account_id}/code/verify', headers=headers, data=data)
     resp_dict = resp.json()
     if (resp.status_code == 200) and isinstance(resp_dict, dict) and resp_dict.get('valid'):
         return redirect(url_for('main.member_page'))
