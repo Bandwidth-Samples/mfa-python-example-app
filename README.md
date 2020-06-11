@@ -18,7 +18,7 @@ or modifying an existing application to leverage Bandwidth MFA for enhanced user
     * tests
 * Includes test framework (`py.test` and `tox`)
 * Includes database migration framework (`alembic`)
-* Sends error emails to admins for unhandled exceptions
+* Sends error emails to admins for unhandled exceptions, but only if you have configured SMTP. Please see "Configuring SMTP" below.
 
 ## Setting up a development environment
 
@@ -36,18 +36,6 @@ We assume that you have `git` and `venv` virtual environment manager installed.
 
     # Install the required Python packages
     pip install -r requirements.txt
-
-# Configuring SMTP
-
-Edit the `local_settings.py` file.
-
-Specifically set all the MAIL_... settings to match your SMTP settings
-
-Note that Google's SMTP server requires the configuration of "less secure apps".
-See https://support.google.com/accounts/answer/6010255?hl=en
-
-Note that Yahoo's SMTP server requires the configuration of "Allow apps that use less secure sign in".
-See https://help.yahoo.com/kb/SLN27791.html
 
 ## Initializing the Database
 
@@ -73,8 +61,8 @@ Point your web browser to http://localhost:5000 (or http://127.0.0.1:5000 if you
 
 You can make use of the following users:
 
-- email `member@example.com` with password `Password1`.
-- email `admin@example.com` with password `Password1`.
+- User with email address `member@example.com` and password `Password1`.
+- User with email address `admin@example.com` and password `Password1`.
 
 ## Running the automated tests
 
@@ -84,6 +72,18 @@ You can make use of the following users:
 ## Trouble shooting
 
 If you make changes in the Models and run into DB schema issues, delete the sqlite DB file `app.sqlite`.
+
+## Configuring SMTP (Optional)
+
+Edit the `local_settings.py` file.
+
+Specifically set all the MAIL_... settings to match your SMTP settings
+
+Note that Google's SMTP server requires the configuration of "less secure apps".
+See https://support.google.com/accounts/answer/6010255?hl=en
+
+Note that Yahoo's SMTP server requires the configuration of "Allow apps that use less secure sign in".
+See https://help.yahoo.com/kb/SLN27791.html
 
 ## See also
 
